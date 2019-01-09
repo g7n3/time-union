@@ -25,12 +25,10 @@ func Test_Union(t *testing.T) {
 
 	t.Logf("Input set: %+v\n", testSet)
 
-	res, err := testSet.Union()
-	if err != nil {
-		t.Error(err.Error())
-	}
+	res := testSet.Union()
 
 	t.Logf("Output set: %+v\n", res)
+	t.Logf("Sum of time set: %d", res.Sum())
 }
 
 func Test_Intersect(t *testing.T) {
@@ -38,10 +36,8 @@ func Test_Intersect(t *testing.T) {
 
 	t.Logf("Input set: %+v\n", testSet)
 
-	res, err := testSet.Intersect()
-	if err != nil {
-		t.Error(err.Error())
-	}
+	res := testSet.Intersect()
 
 	t.Logf("Output set: %+v\n", res)
+	t.Logf("Sum of time set: %d", res.Sum())
 }
