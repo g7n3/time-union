@@ -36,7 +36,7 @@ func (t TSlice) Union() (TSlice, error) {
 				inner := T{Start:v.Start,End:v.End}
 				s = append(s, inner)
 			} else {
-				return s, errors.New("start time is larger than end time")
+				return s, errors.New("start value is larger than the end value")
 			}
 		}
 	}
