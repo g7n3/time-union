@@ -1,7 +1,6 @@
 package time_union
 
 import (
-	"errors"
 	"sort"
 )
 
@@ -18,7 +17,7 @@ func (t TSlice) Swap(i, j int) { t[i], t[j] = t[j], t[i] }
 
 func (t TSlice) Less(i, j int) bool { return t[i].Start < t[j].Start }
 
-func (t TSlice) Union() (TSlice, error) {
+func (t TSlice) Union() TSlice {
 	var s TSlice
 
 	if len(t) > 0 {
@@ -27,7 +26,7 @@ func (t TSlice) Union() (TSlice, error) {
 
 		for k, v := range t {
 			if v.Start > v.End {
-				return s, errors.New("start value is larger than the end value")
+				return s
 			}
 			if k == 0 { continue }
 
@@ -44,10 +43,10 @@ func (t TSlice) Union() (TSlice, error) {
 		}
 	}
 
-	return s, nil
+	return s
 }
 
-func (t TSlice) Intersect() (TSlice, error) {
+func (t TSlice) Intersect() TSlice {
 	var s TSlice
 
 	if len(t) > 1 {
@@ -56,7 +55,7 @@ func (t TSlice) Intersect() (TSlice, error) {
 
 		for k, v := range t {
 			if v.Start > v.End {
-				return s, errors.New("start value is larger than the end value")
+				return s
 			}
 
 			if k == 0 { continue }
@@ -67,10 +66,18 @@ func (t TSlice) Intersect() (TSlice, error) {
 					s[0].End = v.End
 				}
 			} else {
-				return s[:0], nil
+				return s[:0]
 			}
 		}
 	}
 
-	return s, nil
+	return s
+}
+
+func (t TSlice) Sum() (sum int64) {
+	for i := 0; i < len(t); i++ {
+		sum += t[i].End - t[i].Start
+	}
+
+	return sum
 }
