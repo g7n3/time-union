@@ -1,4 +1,4 @@
-# time-union/intersection
+# time-union/intersection :alarm_clock:
 
 ## 干嘛的
 #### 时间并集
@@ -70,7 +70,7 @@ start：12:00:00 end：19:13:06
 t.Intersect()
 ```
 To get the intersection of some time (or number) periods.
-The return value is a `TSlice` with one element.
+The return value is a `TSlice` with only one element.
 
 Before：
 ```
