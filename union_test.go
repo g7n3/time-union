@@ -12,8 +12,8 @@ func makeTimes(t int) TSlice {
 	rand.Seed(time.Now().Unix())
 
 	for i := 0; i < t; i++ {
-		randStart := rand.Int63n(100)
-		randEnd := randStart + rand.Int63n(15)
+		randStart := rand.Int63n(50)
+		randEnd := randStart + rand.Int63n(25) + 1
 		set = append(set, T{Start: randStart, End: randEnd})
 	}
 
@@ -26,6 +26,19 @@ func Test_Union(t *testing.T) {
 	t.Logf("Input set: %+v\n", testSet)
 
 	res, err := testSet.Union()
+	if err != nil {
+		t.Error(err.Error())
+	}
+
+	t.Logf("Output set: %+v\n", res)
+}
+
+func Test_Intersect(t *testing.T) {
+	testSet := makeTimes(2)
+
+	t.Logf("Input set: %+v\n", testSet)
+
+	res, err := testSet.Intersect()
 	if err != nil {
 		t.Error(err.Error())
 	}

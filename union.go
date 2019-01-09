@@ -25,7 +25,12 @@ func (t TSlice) Union() (TSlice, error) {
 		sort.Stable(t)
 		s = append(s, t[0])
 
-		for _, v := range t {
+		for k, v := range t {
+			if v.Start > v.End {
+				return s, errors.New("start value is larger than the end value")
+			}
+			if k == 0 { continue }
+
 			if v.Start >= s[len(s)-1].Start && v.Start <= s[len(s)-1].End {
 				// combine
 				if v.End > s[len(s)-1].End {
@@ -35,8 +40,6 @@ func (t TSlice) Union() (TSlice, error) {
 				// split
 				inner := T{Start:v.Start,End:v.End}
 				s = append(s, inner)
-			} else {
-				return s, errors.New("start value is larger than the end value")
 			}
 		}
 	}
@@ -44,3 +47,30 @@ func (t TSlice) Union() (TSlice, error) {
 	return s, nil
 }
 
+func (t TSlice) Intersect() (TSlice, error) {
+	var s TSlice
+
+	if len(t) > 1 {
+		sort.Stable(t)
+		s = append(s, t[0])
+
+		for k, v := range t {
+			if v.Start > v.End {
+				return s, errors.New("start value is larger than the end value")
+			}
+
+			if k == 0 { continue }
+
+			if v.Start >= s[0].Start && v.Start <= s[0].End {
+				s[0].Start = v.Start
+				if v.End <= s[0].End {
+					s[0].End = v.End
+				}
+			} else {
+				return s[:0], nil
+			}
+		}
+	}
+
+	return s, nil
+}
